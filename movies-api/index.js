@@ -2,7 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import moviesRouter from './api/movies';
-
+import './db';
+import {loadUsers} from './seedData';
 
 dotenv.config();
 
@@ -17,11 +18,17 @@ const errHandler = (err, req, res, next) => {
   res.status(500).send(`Hey!! You caught the error 👍👍, ${err.stack} `);
 };
 
+// eslint-disable-next-line no-undef
+if (process.env.SEED_DB) {
+  loadUsers();
+}
+
 const app = express();
 
-const port = 8080;
+// eslint-disable-next-line no-undef
+const port = process.env.PORT;
 
-//configure body-parser
+//configure body-parser 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
