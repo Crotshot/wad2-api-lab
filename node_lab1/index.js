@@ -3,8 +3,7 @@ import dotenv from 'dotenv';
 import greeting from './greeting.js';
 
 dotenv.config();
-// eslint-disable-next-line no-undef
-const port = process.env.PORT;
+const port = 8080;
 
 // Configure our HTTP server to respond with Hello World to all requests.
 const server = http.createServer((req, res) => {

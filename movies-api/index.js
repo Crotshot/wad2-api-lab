@@ -8,8 +8,7 @@ dotenv.config();
 
 const app = express();
 
-// eslint-disable-next-line no-undef
-const port = process.env.PORT;
+const port = 8080;
 
 //configure body-parser
 app.use(bodyParser.json());
