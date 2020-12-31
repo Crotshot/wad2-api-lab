@@ -1,6 +1,6 @@
 import express from 'express';
 import {
-  getMovies, getMovie, getMovieReviews
+  getMovies, getMovie, getMovieReviews, getGenres
 } from '../tmdb-api';
 
 const router = express.Router();
@@ -22,6 +22,11 @@ router.get('/:id/reviews', (req, res, next) => {
   getMovieReviews(id)
   .then(reviews => res.status(200).send(reviews))
   .catch((error) => next(error));
+});
+
+// eslint-disable-next-line no-unused-vars
+router.get('/genres', (req, res,next) => {
+  getGenres().then(genres => res.status(200).send(genres));
 });
 
 export default router;
