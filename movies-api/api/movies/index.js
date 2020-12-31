@@ -19,7 +19,9 @@ router.get('/:id', (req, res, next) => {
 // eslint-disable-next-line no-unused-vars
 router.get('/:id/reviews', (req, res, next) => {
   const id = parseInt(req.params.id);
-  getMovieReviews(id).then(reviews => res.status(200).send(reviews));
+  getMovieReviews(id)
+  .then(reviews => res.status(200).send(reviews))
+  .catch((error) => next(error));
 });
 
 export default router;
