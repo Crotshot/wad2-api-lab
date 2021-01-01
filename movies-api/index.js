@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import moviesRouter from './api/movies';
 import './db';
 import {loadUsers} from './seedData';
-// eslint-disable-next-line no-unused-vars
 import usersRouter from './api/users';
+import session from 'express-session';
+import authenticate from './authenticate';
 
 dotenv.config();
 
@@ -27,6 +28,12 @@ if (process.env.SEED_DB) {
 
 const app = express();
 
+app.use(session({
+  secret: 'ilikecake',
+  resave: true,
+  saveUninitialized: true
+}));
+
 // eslint-disable-next-line no-undef
 const port = process.env.PORT;
 
@@ -35,12 +42,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 
 app.use(express.static('public'));
-app.use('/api/movies', moviesRouter);
-
 app.use(errHandler);
 
 //Users router
 app.use('/api/users', usersRouter);
+
+app.use('/api/movies', authenticate, moviesRouter);
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
