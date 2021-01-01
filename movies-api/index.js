@@ -6,7 +6,7 @@ import './db';
 import {loadUsers} from './seedData';
 import usersRouter from './api/users';
 import session from 'express-session';
-import authenticate from './authenticate';
+import passport from './authenticate';
 
 dotenv.config();
 
@@ -34,6 +34,8 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(passport.initialize());
+
 // eslint-disable-next-line no-undef
 const port = process.env.PORT;
 
@@ -47,7 +49,7 @@ app.use(errHandler);
 //Users router
 app.use('/api/users', usersRouter);
 
-app.use('/api/movies', authenticate, moviesRouter);
+app.use('/api/movies', passport.authenticate('jwt', {session: false}), moviesRouter);
 
 app.listen(port, () => {
   console.info(`Server running at ${port}`);
